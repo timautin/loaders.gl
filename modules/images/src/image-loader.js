@@ -1,6 +1,6 @@
+/** @typedef {import('@loaders.gl/loader-utils').LoaderObject} LoaderObject */
 import parseImage from './lib/parsers/parse-image';
 import {getBinaryImageMetadata} from './lib/category-api/binary-image-api';
-/** @typedef {import('@loaders.gl/loader-utils').LoaderObject} LoaderObject */
 
 // __VERSION__ is injected by babel-plugin-version-inline
 // @ts-ignore TS2304: Cannot find name '__VERSION__'.
@@ -17,8 +17,11 @@ const MIME_TYPES = [
   'image/svg+xml'
 ];
 
-// Loads a platform-specific image type that can be used as input data to WebGL textures
-/** @type {LoaderObject} */
+/**
+ * Loads a platform-specific image type
+ * Note: This type can be used as input data to WebGL texture creation
+ * @type {LoaderObject}
+ */
 const ImageLoader = {
   id: 'image',
   name: 'Images',

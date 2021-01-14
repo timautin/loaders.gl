@@ -50,7 +50,7 @@ export {
   concatenateTypedArrays,
   compareArrayBuffers
 } from './lib/binary-utils/array-buffer-utils';
-export {padToNBytes, copyToArray, copyArrayBuffer} from './lib/binary-utils/memory-copy-utils';
+export {padToNBytes, copyToArray, copyArrayBuffer, getZeroOffsetArrayBuffer} from './lib/binary-utils/memory-copy-utils';
 export {
   copyPaddedArrayBufferToDataView,
   copyPaddedStringToDataView
@@ -86,6 +86,3 @@ export {default as ChildProcessProxy} from './lib/process-utils/child-process-pr
 // MESH CATEGORY UTILS
 // Note: Should move to category specific module if code size increases
 export {getMeshSize as _getMeshSize, getMeshBoundingBox} from './categories/mesh/mesh-utils';
-
-// DEPRECATED IN 2.3
-export {getZeroOffsetArrayBuffer} from './lib/binary-utils/memory-copy-utils';

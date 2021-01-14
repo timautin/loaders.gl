@@ -41,8 +41,8 @@ export class DataType {
   static             isMap(x: any): boolean;
   static      isDictionary(x: any): boolean;
 
-  get typeId(): Type;
-  get ArrayType(): AnyArrayType;
+  readonly typeId: Type;
+  readonly ArrayType: AnyArrayType;
   compareTo(other: DataType): boolean;
 }
 
@@ -176,10 +176,10 @@ export class FixedSizeList extends DataType {
   public readonly children: Field[];
 
   constructor(listSize: number, child: Field);
-  public get typeId(): Type;
+  public readonly typeId: Type;
   public get valueType(): DataType; //  { return this.children[0].type; }
   public get valueField(): Field; //  { return this.children[0]; }
-  public get ArrayType(): TypedArray; //  { return this.valueType.ArrayType; }
+  public readonly ArrayType: TypedArray; //  { return this.valueType.ArrayType; }
   readonly [Symbol.toStringTag]: string;
   public toString(): string;
 }
