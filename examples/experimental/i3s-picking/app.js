@@ -68,7 +68,7 @@ export default class App extends PureComponent {
       name: INITIAL_EXAMPLE_NAME,
       viewState: INITIAL_VIEW_STATE,
       selectedMapStyle: INITIAL_MAP_STYLE,
-      selectedAttribute: null
+      selectedFeatureAttributes: null
     };
     this._onSelectTileset = this._onSelectTileset.bind(this);
     this.handleClosePanel = this.handleClosePanel.bind(this);
@@ -147,7 +147,8 @@ export default class App extends PureComponent {
 
   _renderLayers() {
     const {tilesetUrl, token} = this.state;
-    const loadOptions = {throttleRequests: true};
+    const loadOptions = {throttleRequests: true, i3s: {loadFeatureAttributes: true}};
+
     if (token) {
       loadOptions.token = token;
     }
@@ -167,8 +168,8 @@ export default class App extends PureComponent {
   }
 
   handleShowAttributesPanel(info) {
-    const attributes = TileLayer.getFeatureAttributes(info.object, info.index);
-    this.setState({selectedAttribute: attributes});
+    const selectedFeatureAttributes = info.layer.getSelectedFeatureAttributes(info.object, info.index);
+    this.setState({selectedFeatureAttributes});
   }
 
   _renderStats() {
@@ -192,23 +193,23 @@ export default class App extends PureComponent {
   }
 
   getTooltip(info) {
-    if (!info.object || info.index < 0) {
+    if (!info.object || info.index < 0 || !info.layer) {
       return null;
     }
 
-    const attributes = TileLayer.getFeatureAttributes(info.object, info.index);
-    return attributes
-      ? JSON.stringify(attributes, null, 2).replace(/[\{\}']+/g, '')
+    const selectedFeatureAttributes = info.layer.getSelectedFeatureAttributes(info.object, info.index);
+    return selectedFeatureAttributes
+      ? JSON.stringify(selectedFeatureAttributes, null, 2).replace(/[\{\}']+/g, '')
       : 'loading metadata...';
   }
 
   handleClosePanel() {
-    this.setState({selectedAttribute: null});
+    this.setState({selectedFeatureAttributes: null});
   }
 
   render() {
     const layers = this._renderLayers();
-    const {viewState, selectedMapStyle, selectedAttribute} = this.state;
+    const {viewState, selectedMapStyle, selectedFeatureAttributes} = this.state;
 
     return (
       <div style={{position: 'relative', height: '100%'}}>
@@ -224,10 +225,10 @@ export default class App extends PureComponent {
         >
           <StaticMap mapStyle={selectedMapStyle} preventStyleDiffing />
         </DeckGL>
-        {selectedAttribute && (
+        {selectedFeatureAttributes && (
           <AttributesPanel
             handleClosePanel={this.handleClosePanel}
-            attributesObject={selectedAttribute}
+            attributesObject={selectedFeatureAttributes}
           />
         )}
       </div>
