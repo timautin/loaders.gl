@@ -62,6 +62,7 @@ const config = {
 
   output: {
     libraryTarget: 'umd',
+    globalObject: 'globalThis',
     path: PACKAGE_ROOT,
     filename: 'dist/dist.min.js'
   },
